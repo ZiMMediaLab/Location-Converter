@@ -19,7 +19,7 @@ Both the loc and results box will auto-scroll if you add enough locations, so do
 out of room. I hope you enjoy and find this app useful, it was super simple to make and I love this game 
 so much, I can't wait to learn and keep building bigger and better stuff. Until next time folks... 
 
-Can be used as a Web App here: https://zimmworks.github.io/Location-Converter/
+Can be used as a Web App here: https://zimmedialabs.github.io/Location-Converter/
 
                                  Happy Hacking and HACK THE PLANET!";
 
