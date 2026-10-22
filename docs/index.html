@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>HM Loc Converter</title>
+  <meta name="description" content="Hackmud loc converter: paste all your locs at once, add your script prefix, and get every call ready to run.">
+  <meta name="theme-color" content="#000000">
+
+  <!-- Installable app (PWA) -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/icons/icon-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Loc Converter">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Start screen -->
+  <section id="screen-start" class="screen start" tabindex="-1">
+    <div class="start-text">
+      <p class="lime center">Welcome to my Loc Converter!</p>
+      <p class="lime">
+        Hi, I'm <span class="yellow">richterXCVI</span>, and I created this tool because I'm new to Hackmud and JavaScript.
+        While I'm more familiar with C#, I decided to build this app to improve my coding skills. Plus, I was tired of
+        manually copying and pasting hundreds of locations into a notepad and then transferring them one by one to my
+        cracker during a hack...
+      </p>
+
+      <p class="cyan center">How To Use</p>
+      <ul class="cyan">
+        <li>Copy all your locs (one per line) and paste them into the "Loc" box.</li>
+        <li>In the "Prefix" box, enter your script prefix (e.g., richter.t1cracker).</li>
+        <li>Click the "Convert" button and watch the magic happen!</li>
+        <li>Result: richter.t1cracker{t:#s.uknown_jr_vhslsk.pub_a8rmp9}</li>
+      </ul>
+
+      <p class="lime">
+        Both the "Loc" and "Results" boxes will auto-scroll if you add enough locations, so don't worry about running
+        out of room. I hope you enjoy and find this app useful. It was super simple to make, and I love this game
+        so much that I can't wait to learn and keep building bigger and better stuff. Until next time, folks...
+      </p>
+      <p class="lime center">Happy Hacking, and HACK THE PLANET!</p>
+    </div>
+
+    <button class="press" id="btn-continue">
+      <span class="press-desktop">PRESS ENTER TO CONTINUE</span>
+      <span class="press-touch">TAP TO CONTINUE</span>
+    </button>
+  </section>
+
+  <!-- Converter screen -->
+  <section id="screen-converter" class="screen converter" hidden>
+
+    <div class="pane results-pane">
+      <div class="pane-tab">shell</div>
+      <label class="title" for="results">Results:</label>
+      <textarea id="results" class="box results" readonly spellcheck="false"
+                aria-label="Results"></textarea>
+      <div class="actions">
+        <button class="btn" id="btn-convert" disabled>Convert</button>
+        <button class="btn small" id="btn-copy" disabled>Copy</button>
+      </div>
+    </div>
+
+    <div class="pane scratch-pane">
+      <div class="pane-tab">scratch</div>
+      <label class="title" for="prefix">Script Prefix:</label>
+      <input id="prefix" class="box prefix" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"
+             placeholder='Enter prefix [example:"richter.t1cracker"]'>
+      <div class="credits">
+        <span>Location Converter</span>
+        <span>Developed by: richterXCVI</span>
+      </div>
+    </div>
+
+    <div class="pane chat-pane">
+      <div class="pane-tab">chat</div>
+      <label class="title" for="locs">Paste Locs:</label>
+      <textarea id="locs" class="box locs" spellcheck="false" autocapitalize="off"
+                placeholder="unknown_jrttl_tkf3hq.public_yjlf2y"></textarea>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>

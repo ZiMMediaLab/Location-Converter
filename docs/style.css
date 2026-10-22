@@ -1,0 +1,310 @@
+/* HM Loc Converter - web version */
+
+@font-face {
+  font-family: "White Rabbit";
+  src: url("assets/fonts/whitrabt.ttf") format("truetype");
+  font-display: block;
+}
+
+:root {
+  --lime: #00ff00;
+  --cyan: #00ffff;
+  --yellow: #ffff00;
+  --red: #ff2020;
+  --fuchsia: #ff00ff;
+  --box: #99b4d1;          /* Windows "ActiveCaption" blue the original boxes used */
+  --box-text: #0a0a14;
+  --panel-line: #5fb3d8;
+  --panel-tab: #9fd8f0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  height: 100%;
+  background: #000;
+  color: #e6e6e6;
+  font-family: "White Rabbit", "Courier New", monospace;
+}
+
+body {
+  overflow: hidden;
+}
+
+button {
+  font: inherit;
+}
+
+.screen {
+  position: fixed;
+  inset: 0;
+  transition: opacity 0.5s;
+}
+
+.screen[hidden] {
+  display: none;
+}
+
+.screen.fading {
+  opacity: 0;
+}
+
+/* Start screen */
+
+.start {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;   /* centered with auto margins below, so long text never gets cut off at the top */
+  gap: 28px;
+  padding: 24px 20px;
+  overflow-y: auto;
+  outline: none;
+  cursor: pointer;
+}
+
+.start-text {
+  width: 100%;
+  overflow-wrap: anywhere;   /* lets the long example loc wrap on phones */
+  max-width: 760px;
+  margin-top: auto;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.start-text p,
+.start-text ul {
+  margin-bottom: 14px;
+}
+
+.start-text ul {
+  padding-left: 1.4em;
+}
+
+.center { text-align: center; }
+.lime { color: var(--lime); }
+.cyan { color: var(--cyan); }
+.yellow { color: var(--yellow); }
+
+.press {
+  margin-bottom: auto;
+  border: 0;
+  background: none;
+  color: var(--red);
+  font-size: 20px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  animation: blink 1.1s steps(2, start) infinite;
+}
+
+.press-touch { display: none; }
+
+@media (hover: none) and (pointer: coarse) {
+  .press-desktop { display: none; }
+  .press-touch { display: inline; }
+}
+
+@keyframes blink {
+  to { visibility: hidden; }
+}
+
+/* Converter screen */
+
+.converter {
+  display: grid;
+  gap: 14px;
+  padding: 14px;
+  background: #000 url("assets/images/log.jpg") left top / auto 100% no-repeat;
+  overflow-y: auto;
+  cursor: default;
+
+  /* Wide screens: results on the left, prefix + locs on the right (like the Windows app) */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-areas:
+    "results scratch"
+    "results chat";
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.pane {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  padding: 26px 14px 14px;
+  border: 1px solid var(--panel-line);
+  background: rgba(4, 8, 14, 0.82);
+}
+
+.pane-tab {
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  padding: 2px 10px 1px;
+  font-size: 11px;
+  color: #041018;
+  background: var(--panel-tab);
+}
+
+.results-pane { grid-area: results; }
+.scratch-pane { grid-area: scratch; }
+.chat-pane { grid-area: chat; }
+
+.title {
+  align-self: center;
+  padding: 0 8px;
+  font-size: 20px;
+  color: var(--fuchsia);
+  background: #000;
+}
+
+.box {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #000;
+  background: var(--box);
+  color: var(--box-text);
+  font: 12px/1.35 "White Rabbit", "Courier New", monospace;
+  outline: none;
+}
+
+.box:focus {
+  box-shadow: 0 0 0 2px var(--cyan);
+}
+
+.box::placeholder {
+  color: #4a5a6e;
+}
+
+.box.error {
+  background: var(--red);
+}
+
+.box.plain {
+  background: #fff;
+}
+
+textarea.box {
+  flex: 1;
+  min-height: 160px;
+  resize: none;
+  white-space: pre;
+  overflow: auto;
+}
+
+.prefix {
+  text-align: center;
+}
+
+.credits {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--yellow);
+}
+
+.credits span {
+  align-self: flex-start;
+  padding: 1px 4px;
+  background: #000;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding-top: 4px;
+}
+
+.btn {
+  min-width: 170px;
+  padding: 8px 18px;
+  border: 2px solid #000;
+  background: #fff;
+  color: #000;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 #444;
+}
+
+.btn.small {
+  min-width: 0;
+  font-size: 16px;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--cyan);
+}
+
+.btn:active:not(:disabled) {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #444;
+}
+
+.btn:disabled {
+  cursor: default;
+  color: #8a8a8a;
+  background: #d6d6d6;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  padding: 6px 14px;
+  border: 1px solid var(--lime);
+  background: #000;
+  color: var(--lime);
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+/* Phones / narrow windows: one column - prefix, locs, then results */
+
+@media (max-width: 760px) {
+  .converter {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "scratch"
+      "chat"
+      "results";
+    padding: 12px 10px calc(12px + env(safe-area-inset-bottom));
+    background-size: cover;
+  }
+
+  .title {
+    font-size: 17px;
+  }
+
+  textarea.box {
+    min-height: 34vh;
+    font-size: 13px;       /* 13px+ stops iPhones from zooming in when you tap a box */
+  }
+
+  .prefix {
+    font-size: 16px;       /* inputs under 16px make iOS zoom on focus */
+  }
+
+  .credits {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
