@@ -1,6 +1,6 @@
 // Offline cache. Bump CACHE_VERSION when files change.
 
-const CACHE_VERSION = "loc-converter-v1";
+const CACHE_VERSION = "loc-converter-v2";
 
 const FILES = [
   "./",
